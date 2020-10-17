@@ -1,12 +1,12 @@
 package com.suweleh.android.hilt.di
 
-import com.suweleh.android.hilt.user.UserListActivity
+import com.suweleh.android.hilt.user.UserListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class ActivityBuilderModule {
+abstract class FragmentBuilderModule {
 
     @ContributesAndroidInjector
-    abstract fun bindMainActivity(): UserListActivity
+    abstract fun bindFragmentUserList(): UserListFragment
 }

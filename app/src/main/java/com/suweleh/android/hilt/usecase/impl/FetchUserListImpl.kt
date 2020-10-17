@@ -9,6 +9,6 @@ class FetchUserListImpl @Inject constructor(
     private val userRepository: UserRepository
 ) : FetchUserList {
     override suspend fun fetchUserList(): List<UserSchema> {
-        TODO("Not yet implemented")
+        return userRepository.fetchUserList()
     }
 }
