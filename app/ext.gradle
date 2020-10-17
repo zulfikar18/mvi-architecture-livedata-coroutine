@@ -1,0 +1,22 @@
+apply from: "version.gradle"
+
+class Config {
+    def compileSdkVersion = 30
+    def minSdkVersion = 16
+    def targetSdkVersion = 30
+}
+
+ext {
+
+    appVersionName = "${versionInfo.major}.${versionInfo.minor}.${versionInfo.patch}"
+
+    if (project.hasProperty('appVersionCode')) {
+        appVersionCode = project.appVersionCode.toInteger()
+    } else {
+        appVersionCode = 99999999
+    }
+
+    config = new Config()
+
+    daggerVersion = '2.28.1'
+}
