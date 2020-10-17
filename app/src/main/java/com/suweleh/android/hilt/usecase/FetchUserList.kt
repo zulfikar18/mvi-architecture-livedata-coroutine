@@ -4,5 +4,5 @@ import com.suweleh.android.hilt.schema.UserSchema
 
 interface FetchUserList {
 
-    suspend fun fetchUserList(): List<UserSchema>
+    suspend fun execute(): List<UserSchema>
 }

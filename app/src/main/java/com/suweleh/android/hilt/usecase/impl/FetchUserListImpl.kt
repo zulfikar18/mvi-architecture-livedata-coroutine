@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FetchUserListImpl @Inject constructor(
     private val userRepository: UserRepository
 ) : FetchUserList {
-    override suspend fun fetchUserList(): List<UserSchema> {
+    override suspend fun execute(): List<UserSchema> {
         return userRepository.fetchUserList()
     }
 }

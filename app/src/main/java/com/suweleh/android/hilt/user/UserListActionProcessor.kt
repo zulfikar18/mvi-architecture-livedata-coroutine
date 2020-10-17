@@ -22,7 +22,7 @@ class UserListActionProcessor(
                 },
                 successBlock = {
                     UserListResult.FetchUserListResult.Success(
-                        fetchUserList.fetchUserList()
+                        fetchUserList.execute()
                     )
                 },
                 failedBlock = {
