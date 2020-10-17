@@ -3,9 +3,9 @@ package com.suweleh.android.hilt.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import com.suweleh.android.hilt.R
 import dagger.android.AndroidInjection
-import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -20,9 +20,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         AndroidInjection.inject(this)
 
-        viewModel = ViewModelProvider(this, factory).get(MainActivityViewModel::class.java)
-
-        val text = viewModel.getText()
-        mainText.text = text
+        viewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel::class.java)
     }
 }

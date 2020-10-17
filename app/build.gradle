@@ -61,9 +61,18 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
 
+    // lifeCycle
+    implementation "androidx.lifecycle:lifecycle-common:$androidxLifecycleExtension"
+    implementation "androidx.lifecycle:lifecycle-runtime:$androidxLifecycleExtension"
+    implementation "android.arch.lifecycle:extensions:$androidxLifecycleExtension"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleExtension"
+
+    //Courotine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
     // dagger
     implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation  "com.google.dagger:dagger-android-support:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
