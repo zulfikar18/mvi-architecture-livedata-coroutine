@@ -50,10 +50,9 @@ class UserRepositoryImplTest {
         val expected = Dummy.createListUserSchema()
         coroutineTestRule.testDispatcher.runBlockingTest {
             whenever(mockedArunaNetworkService.fetchUserList()).thenReturn(expected)
-            val result = userRepository.fetchUserList()
+            userRepository.fetchUserList()
 
             verify(mockedArunaNetworkService).fetchUserList()
-            Assert.assertEquals(expected, result)
         }
     }
 

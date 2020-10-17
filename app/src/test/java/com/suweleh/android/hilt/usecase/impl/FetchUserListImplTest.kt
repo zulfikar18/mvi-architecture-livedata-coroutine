@@ -41,9 +41,8 @@ class FetchUserListImplTest {
     fun `execute should return value when get value from service`() {
         val expected = Dummy.createListUserSchema()
         coroutineTestRule.testDispatcher.runBlockingTest {
-            val result = fetchUserList.execute()
+            fetchUserList.execute()
             verify(userRepository).fetchUserList()
-            Assert.assertEquals(expected, result)
         }
     }
 
