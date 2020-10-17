@@ -62,11 +62,9 @@ class UserRepositoryImplTest {
         val expected = emptyList<UserSchema>()
         coroutineTestRule.testDispatcher.runBlockingTest {
             whenever(mockedArunaNetworkService.fetchUserList()).thenReturn(expected)
-            val result = userRepository.fetchUserList()
+            userRepository.fetchUserList()
 
             verify(mockedArunaNetworkService).fetchUserList()
-
-            Assert.assertTrue(result.isEmpty())
         }
     }
 
@@ -84,5 +82,37 @@ class UserRepositoryImplTest {
                 it is MockitoException
             }
         )
+    }
+
+    @Test
+    fun `getUserList should get list of user when data is available`() {
+        val expected = Dummy.createListUserSchema()
+        coroutineTestRule.testDispatcher.runBlockingTest {
+            whenever(mockedUserDao.getUserList()).thenReturn(expected.map {
+                it.toDao()
+            })
+
+            val result = userRepository.getUserList()
+
+            verify(mockedUserDao).getUserList()
+
+            Assert.assertEquals(expected, result)
+        }
+    }
+
+    @Test
+    fun `getUserList should get error when get data from local get something error`() {
+        val expected = MockitoException(RandomString.make(2))
+        coroutineTestRule.runBlockingErrorTest(
+            testFunction = {
+                whenever(mockedUserDao.getUserList()).thenThrow(expected)
+
+                userRepository.getUserList()
+
+                verify(mockedUserDao).getUserList()
+            },
+            verifyFunction = {
+                it is MockitoException
+            })
     }
 }

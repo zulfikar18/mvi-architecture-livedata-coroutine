@@ -6,4 +6,5 @@ sealed class UserListAction : MviAction {
 
     object FetchUserListAction: UserListAction()
     object GetUserListAction: UserListAction()
+    data class SearchTitleAction(val title: String): UserListAction()
 }
