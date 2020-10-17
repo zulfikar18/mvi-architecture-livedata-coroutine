@@ -7,7 +7,13 @@ sealed class UserListResult : MviResult {
 
     sealed class FetchUserListResult: UserListResult() {
         object Loading: FetchUserListResult()
-        data class Success(val list: List<UserSchema>): FetchUserListResult()
+        object Success: FetchUserListResult()
         data class Error(val error: Exception): FetchUserListResult()
+    }
+
+    sealed class GetUserListResult: UserListResult() {
+        object Loading: GetUserListResult()
+        data class Success(val list: List<UserSchema>): GetUserListResult()
+        data class Error(val error: Exception): GetUserListResult()
     }
 }

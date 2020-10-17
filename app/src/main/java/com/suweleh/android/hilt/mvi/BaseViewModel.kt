@@ -1,6 +1,8 @@
 package com.suweleh.android.hilt.mvi
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 abstract class BaseViewModel<S : MviViewState, A : MviAction, R : MviResult, E : MviViewEffect> :
     ViewModel() {
@@ -16,7 +18,9 @@ abstract class BaseViewModel<S : MviViewState, A : MviAction, R : MviResult, E :
     init {
         viewState = Transformations.map(Transformations.switchMap(nextAction) {
             liveData<R> {
-                actionProcessor.process(this, it)
+                withContext(Dispatchers.IO) {
+                    actionProcessor.process(this@liveData, it)
+                }
             }
         }) {
             reduce(viewState.value ?: initialState, it)
@@ -27,5 +31,5 @@ abstract class BaseViewModel<S : MviViewState, A : MviAction, R : MviResult, E :
         nextAction.value = action
     }
 
-    abstract fun reduce(currentState: S, result: R): S
+   abstract fun reduce(currentState: S, result: R): S
 }

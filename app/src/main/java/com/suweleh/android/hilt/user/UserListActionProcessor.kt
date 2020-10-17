@@ -3,11 +3,11 @@ package com.suweleh.android.hilt.user
 import androidx.lifecycle.LiveDataScope
 import com.suweleh.android.hilt.mvi.BaseActionProcessor
 import com.suweleh.android.hilt.usecase.FetchUserList
-import kotlinx.coroutines.CoroutineScope
+import com.suweleh.android.hilt.usecase.GetUserList
 
 class UserListActionProcessor(
-    override val viewModelScope: CoroutineScope,
-    private val fetchUserList: FetchUserList
+    private val fetchUserList: FetchUserList,
+    private val getUserList: GetUserList
 ) : BaseActionProcessor<UserListAction, UserListResult>() {
 
     override suspend fun process(
@@ -21,12 +21,25 @@ class UserListActionProcessor(
                     UserListResult.FetchUserListResult.Loading
                 },
                 successBlock = {
-                    UserListResult.FetchUserListResult.Success(
-                        fetchUserList.execute()
-                    )
+                    fetchUserList.execute()
+                    UserListResult.FetchUserListResult.Success
                 },
                 failedBlock = {
                     UserListResult.FetchUserListResult.Error(it)
+                }
+            )
+            is UserListAction.GetUserListAction -> result(
+                scope = scope,
+                initialResult = {
+                    UserListResult.GetUserListResult.Loading
+                },
+                successBlock = {
+                    UserListResult.GetUserListResult.Success(
+                        getUserList.execute()
+                    )
+                },
+                failedBlock = {
+                    UserListResult.GetUserListResult.Error(it)
                 }
             )
         }

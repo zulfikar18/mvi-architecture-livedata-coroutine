@@ -4,5 +4,7 @@ import com.suweleh.android.hilt.schema.UserSchema
 
 interface UserRepository {
 
-    suspend fun fetchUserList(): List<UserSchema>
+    suspend fun fetchUserList()
+
+    suspend fun getUserList(): List<UserSchema>
 }

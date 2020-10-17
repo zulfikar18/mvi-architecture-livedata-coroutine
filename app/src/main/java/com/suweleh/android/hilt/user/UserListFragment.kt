@@ -52,6 +52,7 @@ class UserListFragment : Fragment(), MviView<UserListViewState> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.dispatch(UserListAction.FetchUserListAction)
+        viewModel.dispatch(UserListAction.GetUserListAction)
     }
 
     @SuppressLint("SetTextI18n")

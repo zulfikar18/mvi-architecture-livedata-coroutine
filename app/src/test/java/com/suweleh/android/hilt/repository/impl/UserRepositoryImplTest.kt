@@ -4,6 +4,7 @@ import com.nhaarman.mockitokotlin2.verify
 import com.nhaarman.mockitokotlin2.whenever
 import com.suweleh.android.hilt.CoroutineTestRule
 import com.suweleh.android.hilt.Dummy
+import com.suweleh.android.hilt.db.dao.UserDao
 import com.suweleh.android.hilt.network.ArunaNetworkService
 import com.suweleh.android.hilt.repository.UserRepository
 import com.suweleh.android.hilt.schema.UserSchema
@@ -30,13 +31,17 @@ class UserRepositoryImplTest {
     @Mock
     private lateinit var mockedArunaNetworkService: ArunaNetworkService
 
+    @Mock
+    private lateinit var mockedUserDao: UserDao
+
     private lateinit var userRepository: UserRepository
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
         userRepository = UserRepositoryImpl(
-            arunaNetworkService = mockedArunaNetworkService
+            arunaNetworkService = mockedArunaNetworkService,
+            userDao = mockedUserDao
         )
     }
 
