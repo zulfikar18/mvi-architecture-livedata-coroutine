@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveDataScope
 import com.suweleh.android.hilt.mvi.BaseActionProcessor
 import com.suweleh.android.hilt.usecase.FetchUserList
 import com.suweleh.android.hilt.usecase.GetUserList
+import com.suweleh.android.hilt.usecase.SearchByTitle
 
 class UserListActionProcessor(
     private val fetchUserList: FetchUserList,
-    private val getUserList: GetUserList
+    private val getUserList: GetUserList,
+    private val searchByTitle: SearchByTitle
 ) : BaseActionProcessor<UserListAction, UserListResult>() {
 
     override suspend fun process(
@@ -22,10 +24,10 @@ class UserListActionProcessor(
                 },
                 successBlock = {
                     fetchUserList.execute()
-                    UserListResult.FetchUserListResult.Success
+                    UserListResult.FetchUserListResult.Success(action.isPullToRefresh)
                 },
                 failedBlock = {
-                    UserListResult.FetchUserListResult.Error(it)
+                    UserListResult.FetchUserListResult.Error(action.isPullToRefresh, it)
                 }
             )
             is UserListAction.GetUserListAction -> result(
@@ -40,6 +42,12 @@ class UserListActionProcessor(
                 },
                 failedBlock = {
                     UserListResult.GetUserListResult.Error(it)
+                }
+            )
+            is UserListAction.SearchTitleAction -> result(
+                scope = scope,
+                successBlock = {
+                    UserListResult.SearchByTitleResult(searchByTitle.execute(action.title))
                 }
             )
         }

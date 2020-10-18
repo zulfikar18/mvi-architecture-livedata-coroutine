@@ -4,11 +4,13 @@ import com.suweleh.android.hilt.mvi.BaseActionProcessor
 import com.suweleh.android.hilt.mvi.BaseViewModel
 import com.suweleh.android.hilt.usecase.FetchUserList
 import com.suweleh.android.hilt.usecase.GetUserList
+import com.suweleh.android.hilt.usecase.SearchByTitle
 import javax.inject.Inject
 
 class UserListViewModel @Inject constructor(
     fetchUserList: FetchUserList,
-    getUserList: GetUserList
+    getUserList: GetUserList,
+    searchByTitle: SearchByTitle
 ) : BaseViewModel<UserListViewState, UserListAction, UserListResult, UserListViewEffect>() {
 
     override val initialState: UserListViewState
@@ -22,7 +24,8 @@ class UserListViewModel @Inject constructor(
             is UserListResult.FetchUserListResult -> when (result) {
                 is UserListResult.FetchUserListResult.Success -> currentState.copy(
                     isLoading = false,
-                    error = null
+                    error = null,
+                    isPullToRefresh = result.isPullToRefresh
                 )
                 is UserListResult.FetchUserListResult.Loading -> currentState.copy(
                     isLoading = true,
@@ -30,7 +33,8 @@ class UserListViewModel @Inject constructor(
                 )
                 is UserListResult.FetchUserListResult.Error -> currentState.copy(
                     isLoading = false,
-                    error = result.error
+                    error = result.error,
+                    isPullToRefresh = result.isPullToRefresh
                 )
             }
             is UserListResult.GetUserListResult -> when (result) {
@@ -48,12 +52,18 @@ class UserListViewModel @Inject constructor(
                     error = result.error
                 )
             }
+            is UserListResult.SearchByTitleResult -> currentState.copy(
+                isLoading = false,
+                error = null,
+                list = result.list
+            )
         }
     }
 
     override val actionProcessor: BaseActionProcessor<UserListAction, UserListResult> =
         UserListActionProcessor(
             fetchUserList = fetchUserList,
-            getUserList = getUserList
+            getUserList = getUserList,
+            searchByTitle = searchByTitle
         )
 }

@@ -7,4 +7,6 @@ interface UserRepository {
     suspend fun fetchUserList()
 
     suspend fun getUserList(): List<UserSchema>
+
+    suspend fun searchByTitle(title: String): List<UserSchema>
 }

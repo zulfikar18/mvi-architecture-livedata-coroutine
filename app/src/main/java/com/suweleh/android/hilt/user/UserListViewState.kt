@@ -5,6 +5,7 @@ import com.suweleh.android.hilt.schema.UserSchema
 
 data class UserListViewState(
     val isLoading: Boolean,
+    val isPullToRefresh: Boolean,
     val list: List<UserSchema>,
     val error: Exception?
 ): MviViewState {
@@ -12,6 +13,7 @@ data class UserListViewState(
         fun initialData(): UserListViewState {
             return UserListViewState(
                 isLoading = false,
+                isPullToRefresh = false,
                 list = emptyList(),
                 error = null
             )

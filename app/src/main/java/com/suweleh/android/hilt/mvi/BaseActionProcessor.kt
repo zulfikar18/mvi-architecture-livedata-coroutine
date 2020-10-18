@@ -9,6 +9,13 @@ abstract class BaseActionProcessor<A : MviAction, R : MviResult> {
 
     protected suspend fun result(
         scope: LiveDataScope<R>,
+        successBlock: suspend () -> R
+    ) {
+        scope.emit(successBlock())
+    }
+
+    protected suspend fun result(
+        scope: LiveDataScope<R>,
         successBlock: suspend () -> R,
         failedBlock: (Exception) -> R,
         initialResult: () -> R

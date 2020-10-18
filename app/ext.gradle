@@ -18,8 +18,15 @@ ext {
 
     config = new Config()
 
+    // AndroidX Component
+    androidxAppCompat = '1.1.0'
+    androidxCoreKtx = '1.3.1'
+
     // UI
-    recyclerViewVersion = '1.1.0'
+    androidxConstraintLayout = '2.0.2'
+    androidxRecyclerView = '1.1.0'
+    androidxSwipeRefreshLayout = '1.1.0'
+    materialComponent = '1.1.0'
 
     daggerVersion = '2.28.1'
     androidxLifecycleExtension = '2.2.0'
