@@ -110,9 +110,13 @@ class UserListFragment : Fragment(), MviView<UserListViewState> {
                 swipeRefreshLayout.isRefreshing = true
             }
         } else {
+            layoutNotFound.visibility = View.GONE
+            userListRecyclerView.visibility = View.VISIBLE
             swipeRefreshLayout.isRefreshing = false
-            if (state.list.isNotEmpty()) {
-                adapter.submitList(state.list)
+            adapter.submitList(state.list)
+            if (state.list.isEmpty()) {
+                layoutNotFound.visibility = View.VISIBLE
+                userListRecyclerView.visibility = View.GONE
             }
         }
     }
