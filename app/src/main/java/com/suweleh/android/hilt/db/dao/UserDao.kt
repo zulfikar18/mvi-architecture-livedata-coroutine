@@ -9,8 +9,8 @@ import com.suweleh.android.hilt.db.entity.UserEntity
 @Dao
 interface UserDao {
 
-    @Query("SELECT * FROM users WHERE title IN(:title)")
-    fun getUserByTitle(vararg title: String): UserEntity
+    @Query("SELECT * FROM users WHERE title LIKE '%' || :title || '%'")
+    fun getUserByTitle(vararg title: String): List<UserEntity>
 
     @Query("SELECT * FROM users")
     fun getUserList(): List<UserEntity>

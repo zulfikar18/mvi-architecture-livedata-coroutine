@@ -15,6 +15,15 @@ object Dummy {
         )
     }
 
+    fun createUserSchema(title: String): UserSchema {
+        return UserSchema(
+            userId = Random.nextInt(),
+            id = Random.nextInt(),
+            title = title,
+            body = RandomString.make(2)
+        )
+    }
+
     fun createListUserSchema(): List<UserSchema> {
         return arrayListOf(createUserSchema())
     }

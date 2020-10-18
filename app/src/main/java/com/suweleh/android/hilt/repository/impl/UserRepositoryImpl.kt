@@ -25,10 +25,8 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchByTitle(title: String): List<UserSchema> {
-        return userDao.getUserList().map {
+        return userDao.getUserByTitle(title).map {
             UserSchema.fromDao(it)
-        }.filter {
-            it.title.contains(title, false)
         }
     }
 }
