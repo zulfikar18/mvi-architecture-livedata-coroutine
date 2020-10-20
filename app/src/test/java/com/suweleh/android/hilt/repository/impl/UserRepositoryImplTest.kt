@@ -5,7 +5,7 @@ import com.nhaarman.mockitokotlin2.whenever
 import com.suweleh.android.hilt.CoroutineTestRule
 import com.suweleh.android.hilt.Dummy
 import com.suweleh.android.hilt.db.dao.UserDao
-import com.suweleh.android.hilt.network.ArunaNetworkService
+import com.suweleh.android.hilt.network.UserNetworkService
 import com.suweleh.android.hilt.repository.UserRepository
 import com.suweleh.android.hilt.schema.UserSchema
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -29,7 +29,7 @@ class UserRepositoryImplTest {
     )
 
     @Mock
-    private lateinit var mockedArunaNetworkService: ArunaNetworkService
+    private lateinit var mockedUserNetworkService: UserNetworkService
 
     @Mock
     private lateinit var mockedUserDao: UserDao
@@ -40,7 +40,7 @@ class UserRepositoryImplTest {
     fun setup() {
         MockitoAnnotations.initMocks(this)
         userRepository = UserRepositoryImpl(
-            arunaNetworkService = mockedArunaNetworkService,
+            userNetworkService = mockedUserNetworkService,
             userDao = mockedUserDao
         )
     }
@@ -49,10 +49,10 @@ class UserRepositoryImplTest {
     fun `fetchUserList should get value when request api valid`() {
         val expected = Dummy.createListUserSchema()
         coroutineTestRule.testDispatcher.runBlockingTest {
-            whenever(mockedArunaNetworkService.fetchUserList()).thenReturn(expected)
+            whenever(mockedUserNetworkService.fetchUserList()).thenReturn(expected)
             userRepository.fetchUserList()
 
-            verify(mockedArunaNetworkService).fetchUserList()
+            verify(mockedUserNetworkService).fetchUserList()
         }
     }
 
@@ -60,10 +60,10 @@ class UserRepositoryImplTest {
     fun `fetchUserList should get empty user list when get empty from backend`() {
         val expected = emptyList<UserSchema>()
         coroutineTestRule.testDispatcher.runBlockingTest {
-            whenever(mockedArunaNetworkService.fetchUserList()).thenReturn(expected)
+            whenever(mockedUserNetworkService.fetchUserList()).thenReturn(expected)
             userRepository.fetchUserList()
 
-            verify(mockedArunaNetworkService).fetchUserList()
+            verify(mockedUserNetworkService).fetchUserList()
         }
     }
 
@@ -72,10 +72,10 @@ class UserRepositoryImplTest {
         val expected = MockitoException(RandomString.make(2))
         coroutineTestRule.runBlockingErrorTest(
             testFunction = {
-                whenever(mockedArunaNetworkService.fetchUserList()).thenThrow(expected)
+                whenever(mockedUserNetworkService.fetchUserList()).thenThrow(expected)
                 userRepository.fetchUserList()
 
-                verify(mockedArunaNetworkService).fetchUserList()
+                verify(mockedUserNetworkService).fetchUserList()
             },
             verifyFunction = {
                 it is MockitoException

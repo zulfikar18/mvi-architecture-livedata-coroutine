@@ -1,7 +1,7 @@
 package com.suweleh.android.hilt.di
 
 import android.content.Context
-import com.suweleh.android.hilt.db.ArunaDb
+import com.suweleh.android.hilt.db.UserDb
 import com.suweleh.android.hilt.db.dao.UserDao
 import dagger.Module
 import dagger.Provides
@@ -10,12 +10,12 @@ import dagger.Provides
 class DatabaseModule {
 
     @Provides
-    fun provideArunaDb(context: Context): ArunaDb {
-        return ArunaDb.create(context)
+    fun provideUserDb(context: Context): UserDb {
+        return UserDb.create(context)
     }
 
     @Provides
-    fun provideUserDao(arunaDb: ArunaDb): UserDao {
-        return arunaDb.userDao()
+    fun provideUserDao(userDb: UserDb): UserDao {
+        return userDb.userDao()
     }
 }

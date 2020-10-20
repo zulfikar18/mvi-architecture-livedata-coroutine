@@ -15,19 +15,19 @@ import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
-class ArunaDbTest {
-    private lateinit var arunaDb: ArunaDb
+class UserDbTest {
+    private lateinit var userDb: UserDb
     private lateinit var userDao: UserDao
 
     @Before
     fun setup() {
-        arunaDb = ArunaDb.createForTest(InstrumentationRegistry.getInstrumentation().context)
-        userDao = arunaDb.userDao()
+        userDb = UserDb.createForTest(InstrumentationRegistry.getInstrumentation().context)
+        userDao = userDb.userDao()
     }
 
     @After
     fun tearDown() {
-        arunaDb.close()
+        userDb.close()
     }
 
     @Test

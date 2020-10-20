@@ -1,7 +1,7 @@
 package com.suweleh.android.hilt.di
 
-import com.suweleh.android.hilt.network.ArunaNetworkService
-import com.suweleh.android.hilt.network.ArunaServiceFactory
+import com.suweleh.android.hilt.network.UserNetworkService
+import com.suweleh.android.hilt.network.UserServiceFactory
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -10,9 +10,9 @@ import okhttp3.OkHttpClient
 class NetworkModule {
 
     @Provides
-    fun provideArunaNetworkService(
+    fun provideUserNetworkService(
         okHttpClient: OkHttpClient
-    ): ArunaNetworkService {
-        return ArunaServiceFactory.createService(okHttpClient)
+    ): UserNetworkService {
+        return UserServiceFactory.createService(okHttpClient)
     }
 }

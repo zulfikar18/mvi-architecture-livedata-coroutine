@@ -12,21 +12,21 @@ import com.suweleh.android.hilt.db.entity.UserEntity
     version = 1,
     exportSchema = true
 )
-abstract class ArunaDb : RoomDatabase() {
+abstract class UserDb : RoomDatabase() {
     companion object {
-        private const val DB_NAME = "arunaDb"
+        private const val DB_NAME = "userDb"
 
-        fun create(context: Context): ArunaDb {
+        fun create(context: Context): UserDb {
             return Room.databaseBuilder(
                 context,
-                ArunaDb::class.java, DB_NAME
+                UserDb::class.java, DB_NAME
             ).build()
         }
 
-        fun createForTest(context: Context): ArunaDb {
+        fun createForTest(context: Context): UserDb {
             return Room.inMemoryDatabaseBuilder(
                 context,
-                ArunaDb::class.java
+                UserDb::class.java
             ).allowMainThreadQueries().build()
         }
     }
