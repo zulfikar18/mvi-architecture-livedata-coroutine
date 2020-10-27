@@ -1,13 +1,13 @@
 package com.suweleh.android.hilt.user
 
+import androidx.hilt.lifecycle.ViewModelInject
 import com.suweleh.android.hilt.mvi.BaseActionProcessor
 import com.suweleh.android.hilt.mvi.BaseViewModel
 import com.suweleh.android.hilt.usecase.FetchUserList
 import com.suweleh.android.hilt.usecase.GetUserList
 import com.suweleh.android.hilt.usecase.SearchByTitle
-import javax.inject.Inject
 
-class UserListViewModel @Inject constructor(
+class UserListViewModel @ViewModelInject constructor(
     fetchUserList: FetchUserList,
     getUserList: GetUserList,
     searchByTitle: SearchByTitle
@@ -25,6 +25,7 @@ class UserListViewModel @Inject constructor(
                 is UserListResult.FetchUserListResult.Success -> currentState.copy(
                     isLoading = false,
                     error = null,
+                    list = result.list,
                     isPullToRefresh = result.isPullToRefresh
                 )
                 is UserListResult.FetchUserListResult.Loading -> currentState.copy(
@@ -34,22 +35,8 @@ class UserListViewModel @Inject constructor(
                 is UserListResult.FetchUserListResult.Error -> currentState.copy(
                     isLoading = false,
                     error = result.error,
-                    isPullToRefresh = result.isPullToRefresh
-                )
-            }
-            is UserListResult.GetUserListResult -> when (result) {
-                is UserListResult.GetUserListResult.Loading -> currentState.copy(
-                    isLoading = true,
-                    error = null
-                )
-                is UserListResult.GetUserListResult.Success -> currentState.copy(
-                    isLoading = false,
                     list = result.list,
-                    error = null
-                )
-                is UserListResult.GetUserListResult.Error -> currentState.copy(
-                    isLoading = false,
-                    error = result.error
+                    isPullToRefresh = result.isPullToRefresh
                 )
             }
             is UserListResult.SearchByTitleResult -> currentState.copy(

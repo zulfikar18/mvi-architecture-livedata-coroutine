@@ -1,10 +1,10 @@
 package com.suweleh.android.hilt.user
 
-import androidx.lifecycle.LiveDataScope
 import com.suweleh.android.hilt.mvi.BaseActionProcessor
 import com.suweleh.android.hilt.usecase.FetchUserList
 import com.suweleh.android.hilt.usecase.GetUserList
 import com.suweleh.android.hilt.usecase.SearchByTitle
+import kotlinx.coroutines.flow.Flow
 
 class UserListActionProcessor(
     private val fetchUserList: FetchUserList,
@@ -12,40 +12,25 @@ class UserListActionProcessor(
     private val searchByTitle: SearchByTitle
 ) : BaseActionProcessor<UserListAction, UserListResult>() {
 
-    override suspend fun process(
-        scope: LiveDataScope<UserListResult>,
+    override fun process(
         action: UserListAction
-    ) {
-        when (action) {
+    ): Flow<UserListResult> {
+        return when (action) {
             is UserListAction.FetchUserListAction -> result(
-                scope = scope,
                 initialResult = {
                     UserListResult.FetchUserListResult.Loading
                 },
                 successBlock = {
                     fetchUserList.execute()
-                    UserListResult.FetchUserListResult.Success(action.isPullToRefresh)
+                    val userList = getUserList.execute()
+                    UserListResult.FetchUserListResult.Success(action.isPullToRefresh, userList)
                 },
                 failedBlock = {
-                    UserListResult.FetchUserListResult.Error(action.isPullToRefresh, it)
-                }
-            )
-            is UserListAction.GetUserListAction -> result(
-                scope = scope,
-                initialResult = {
-                    UserListResult.GetUserListResult.Loading
-                },
-                successBlock = {
-                    UserListResult.GetUserListResult.Success(
-                        getUserList.execute()
-                    )
-                },
-                failedBlock = {
-                    UserListResult.GetUserListResult.Error(it)
+                    val userList = getUserList.execute()
+                    UserListResult.FetchUserListResult.Error(action.isPullToRefresh, userList, it)
                 }
             )
             is UserListAction.SearchTitleAction -> result(
-                scope = scope,
                 successBlock = {
                     UserListResult.SearchByTitleResult(searchByTitle.execute(action.title))
                 }

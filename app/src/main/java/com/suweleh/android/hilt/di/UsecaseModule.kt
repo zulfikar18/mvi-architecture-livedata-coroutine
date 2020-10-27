@@ -8,7 +8,10 @@ import com.suweleh.android.hilt.usecase.impl.GetUserListImpl
 import com.suweleh.android.hilt.usecase.impl.SearchByTitleImpl
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ApplicationComponent
 
+@InstallIn(ApplicationComponent::class)
 @Module
 abstract class UsecaseModule {
 

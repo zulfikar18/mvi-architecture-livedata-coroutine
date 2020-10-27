@@ -1,17 +1,17 @@
 package com.suweleh.android.hilt.repository.impl
 
 import com.suweleh.android.hilt.db.dao.UserDao
-import com.suweleh.android.hilt.network.UserNetworkService
+import com.suweleh.android.hilt.network.ApplicationNetworkService
 import com.suweleh.android.hilt.repository.UserRepository
 import com.suweleh.android.hilt.schema.UserSchema
 import javax.inject.Inject
 
 class UserRepositoryImpl @Inject constructor(
-    private val userNetworkService: UserNetworkService,
+    private val applicationNetworkService: ApplicationNetworkService,
     private val userDao: UserDao
 ) : UserRepository {
     override suspend fun fetchUserList() {
-        userNetworkService.fetchUserList().map {
+        applicationNetworkService.fetchUserList().map {
             it.toDao()
         }.let {
             userDao.insertOrReplaceList(it)

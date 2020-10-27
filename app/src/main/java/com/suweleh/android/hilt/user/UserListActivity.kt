@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.suweleh.android.hilt.R
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UserListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

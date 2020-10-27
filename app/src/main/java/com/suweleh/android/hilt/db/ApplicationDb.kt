@@ -12,24 +12,33 @@ import com.suweleh.android.hilt.db.entity.UserEntity
     version = 1,
     exportSchema = true
 )
-abstract class UserDb : RoomDatabase() {
+abstract class ApplicationDb : RoomDatabase() {
+
+    abstract fun userDao(): UserDao
+
     companion object {
         private const val DB_NAME = "userDb"
 
-        fun create(context: Context): UserDb {
+        @Volatile private var instance: ApplicationDb? = null
+
+        fun getInstance(context: Context): ApplicationDb {
+            return instance ?: synchronized(this) {
+                instance ?: create(context).also { instance = it }
+            }
+        }
+
+        fun create(context: Context): ApplicationDb {
             return Room.databaseBuilder(
                 context,
-                UserDb::class.java, DB_NAME
+                ApplicationDb::class.java, DB_NAME
             ).build()
         }
 
-        fun createForTest(context: Context): UserDb {
+        fun createForTest(context: Context): ApplicationDb {
             return Room.inMemoryDatabaseBuilder(
                 context,
-                UserDb::class.java
+                ApplicationDb::class.java
             ).allowMainThreadQueries().build()
         }
     }
-
-    abstract fun userDao(): UserDao
 }

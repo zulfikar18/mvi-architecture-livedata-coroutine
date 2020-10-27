@@ -1,30 +1,32 @@
 package com.suweleh.android.hilt.mvi
 
-import androidx.lifecycle.LiveDataScope
-import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 abstract class BaseActionProcessor<A : MviAction, R : MviResult> {
 
-    abstract suspend fun process(scope: LiveDataScope<R>, action: A)
+    abstract fun process(action: A): Flow<R>
 
-    protected suspend fun result(
-        scope: LiveDataScope<R>,
+    protected fun result(
         successBlock: suspend () -> R
-    ) {
-        scope.emit(successBlock())
+    ): Flow<R> {
+        return flow {
+            emit(successBlock())
+        }
     }
 
-    protected suspend fun result(
-        scope: LiveDataScope<R>,
+    protected fun result(
         successBlock: suspend () -> R,
-        failedBlock: (Exception) -> R,
+        failedBlock: suspend (Exception) -> R,
         initialResult: () -> R
-    ) {
-        scope.emit(initialResult())
-        try {
-            scope.emit(successBlock())
-        } catch (error: Exception) {
-            scope.emit(failedBlock(error))
+    ): Flow<R> {
+        return flow {
+            emit(initialResult())
+            try {
+                emit(successBlock())
+            } catch (error: Exception) {
+                emit(failedBlock(error))
+            }
         }
     }
 }

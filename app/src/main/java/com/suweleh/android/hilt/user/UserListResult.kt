@@ -7,14 +7,8 @@ sealed class UserListResult : MviResult {
 
     sealed class FetchUserListResult: UserListResult() {
         object Loading: FetchUserListResult()
-        data class Success(val isPullToRefresh: Boolean): FetchUserListResult()
-        data class Error(val isPullToRefresh: Boolean, val error: Exception): FetchUserListResult()
-    }
-
-    sealed class GetUserListResult: UserListResult() {
-        object Loading: GetUserListResult()
-        data class Success(val list: List<UserSchema>): GetUserListResult()
-        data class Error(val error: Exception): GetUserListResult()
+        data class Success(val isPullToRefresh: Boolean, val list: List<UserSchema>): FetchUserListResult()
+        data class Error(val isPullToRefresh: Boolean, val list: List<UserSchema>, val error: Exception): FetchUserListResult()
     }
 
     data class SearchByTitleResult(val list: List<UserSchema>): UserListResult()
